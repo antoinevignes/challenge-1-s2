@@ -1,0 +1,14 @@
+extends layout/layout
+
+block content
+    div.container
+        each post in posts
+          div
+              h2= post.title
+              span= post.date
+
+        if token
+            a.btn.btn-primary(href="/add") Add
+            a.btn.btn-primary(href="/logout") Log out
+        else
+            a.btn.btn-primary(href="/login") Log in

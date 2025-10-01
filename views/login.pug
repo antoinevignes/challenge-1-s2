@@ -1,0 +1,14 @@
+extends layout/layout
+
+block content
+    .container.mt-5
+        .row.justify-content-center
+            .col-md-4
+                if error
+                    p.text-danger.mb-3 #{error}
+                form(action="/login" method="POST")
+                    .mb-3
+                        input.form-control(type="text" id="username" name="username" placeholder="Username")
+                    .mb-3
+                        input.form-control(type="password" id="password" name="password" placeholder="Password")
+                    button.btn.btn-primary(type="submit") Log in

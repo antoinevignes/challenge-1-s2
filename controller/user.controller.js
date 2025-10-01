@@ -1,102 +1,57 @@
-import { header } from "../utils/header.js";
 import bcrypt from "bcryptjs";
+import { user } from "../data/user.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
-const user = { username: "Antoine", password: "" };
-(async () => {
-  user.password = await bcrypt.hash("1234", 10);
-})();
+dotenv.config();
 
-function home(_, res) {
-  res.send(
-    header() +
-      `
-          <main class="flex flex-col items-center justify-center h-screen gap-4">
-            <h1 class="text-2xl font-bold">LOG IN</h1>
-            <form
-              action="/login"
-              method="post"
-              class="flex flex-col items-center justify-center gap-4"
-            >
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                class="border-1 rounded-md p-1"
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                class="border-1 rounded-md p-1"
-              />
-              <input
-                type="submit"
-                value="Login"
-                class="bg-black border-1 border-black text-white rounded-md px-2 py-1 hover:bg-white hover:text-black transition-all cursor-pointer"
-              />
-            </form>
-          </main>
-        </html>
-       `
-  );
+function loginPage(req, res) {
+  const error = req.query.error;
+  res.render("login", { error });
 }
 
-async function login(req, res) {
+function login(req, res) {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.send(
-      header() +
-        `
-            <main class="flex flex-col h-screen justify-center items-center gap-4">
-              <p class="text-red-600">Veuillez remplir tous les champs</p>
-              <a href="/" class="underline hover:font-semibold transition-all">Retour</a>
-            </main>
-          </html>
-        `
-    );
+    const error = "Veuillez remplir tous les champs";
+    res.redirect(`/add?error=${encodeURIComponent(error)}`);
+    return;
   }
 
-  if (
-    user.username === username &&
-    (await bcrypt.compare(password, user.password))
-  ) {
-    req.session.user = { username };
-    return res.redirect("/dashboard");
+  if (username.trim() === "" || password.trim() === "") {
+    const error = "Veuillez remplir tous les champs";
+    res.redirect(`/login?error=${encodeURIComponent(error)}`);
+    return;
   }
 
-  res.send(
-    header() +
-      `
-          <main class="flex flex-col h-screen justify-center items-center gap-4">
-            <p class="text-red-600">Identifiants invalides</p>
-            <a href="/" class="underline hover:font-semibold transition-all">Réessayer</a>
-          </main>
-        </html>
-      `
-  );
-}
+  bcrypt.compare(password, user.password, (_, result) => {
+    if (!result || user.username !== username) {
+      const error = "Utilisateur ou mot de passe incorrect";
+      res.redirect(`/login?error=${encodeURIComponent(error)}`);
+      return;
+    }
 
-function dashboard(req, res) {
-  res.send(
-    header() +
-      `
-          <main class="flex flex-col justify-center items-center h-screen gap-4">
-            <h1 class="font-bold text-2xl">DASHBOARD</h1>
-            <p>Hello ${req.session.user.username}</p>
-            <a href="/logout" class="underline hover:font-semibold transition-all"
-              >Log Out</a
-            >
-          </main>
-        </html>
-      `
-  );
-}
-
-function logout(req, res) {
-  req.session.destroy(() => {
-    return res.redirect("/");
+    const token = jwt.sign({ user: user.login }, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+    });
+    req.session.token = token;
+    res.redirect("/");
   });
 }
 
-export default { home, login, dashboard, logout };
+function logout(req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      res.redirect("/add");
+      return;
+    }
+    res.redirect("/");
+  });
+}
+
+export default {
+  loginPage,
+  login,
+  logout,
+};

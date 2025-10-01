@@ -1,0 +1,15 @@
+extends layout/layout
+
+block content
+    .container.mt-5
+        .row.justify-content-center
+            .col-md-4
+                if error
+                    p.text-danger.mb-3 #{error}
+                form(action="/add" method="POST")
+                    .mb-3
+                        input.form-control(type="text" name="name" placeholder="Name")
+                    .mb-3
+                     input(type="date", name="date" placeholder="Date")
+                    button.btn.btn-primary(type="submit") Add
+                    a.btn.btn-primary(href="/") Home
