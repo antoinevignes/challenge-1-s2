@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1 Modifier le produit
+  form(method="POST")
+    label Société
+    input(type="text", name="society", value=product.society)
+    label Prix
+    input(type="number", name="price", value=product.price)
+    label Quantité
+    input(type="number", name="qty", value=product.qty)
+    label Année
+    input(type="number", name="year", value=product.year)
+    button(type="submit") Modifier
+  form(action=`/delete/${product._id}`, method="POST")
+    button(type="submit") Supprimer

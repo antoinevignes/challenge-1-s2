@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 Ajouter un produit
+  form(method="POST")
+    label Société
+    input(type="text", name="society")
+    label Prix
+    input(type="number", name="price")
+    label Quantité
+    input(type="number", name="qty")
+    label Année
+    input(type="number", name="year")
+    label Taille H
+    input(type="number", name="size[h]")
+    label Taille W
+    input(type="number", name="size[w]")
+    label UOM
+    input(type="text", name="size[uom]")
+    button(type="submit") Ajouter

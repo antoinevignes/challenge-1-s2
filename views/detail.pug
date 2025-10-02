@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Détails du produit
+  p Société: #{product.society}
+  p Prix: #{product.price}
+  p Quantité: #{product.qty}
+  p Année: #{product.year}
+  p Taille: #{product.size.h} x #{product.size.w} #{product.size.uom}
+  a(href=`/modify/${product._id}`) Modifier

@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title Shop
+    link(rel="stylesheet", href="/css/style.css")
+  body
+    header
+      nav
+        a(href="/") Accueil
+        if session && session.token
+          a(href="/add") Ajouter Produit
+          a(href="/user/logout") Logout
+        else
+          a(href="/user/login") Login
+
+    block content
