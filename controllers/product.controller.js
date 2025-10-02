@@ -35,14 +35,29 @@ export async function getProductForModify(req, res) {
 
 export async function updateProductById(req, res) {
   try {
-    const updated = await productModel.findByIdAndUpdate(
+    const { society, price, qty, year } = req.body;
+
+    if (!society || !price || !qty || !year) {
+      return res.render("modify", {
+        product: { ...req.body, _id: req.params.id },
+        error: "Tous les champs sont obligatoires",
+      });
+    }
+
+    await productModel.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        society,
+        price: Number(price),
+        qty: Number(qty),
+        year: Number(year),
+      },
       { new: true }
     );
+
     res.redirect(`/detail/${req.params.id}`);
   } catch (err) {
-    console.error(err);
+    console.error("Erreur modification produit:", err);
     res.status(500).send("Erreur serveur");
   }
 }
@@ -59,11 +74,32 @@ export async function deleteProduct(req, res) {
 
 export async function addProduct(req, res) {
   try {
-    const newProduct = new productModel(req.body);
+    const {
+      society,
+      price,
+      qty,
+      year,
+      "size[h]": h,
+      "size[w]": w,
+      "size[uom]": uom,
+    } = req.body;
+
+    if (!society || !price || !qty || !year || !h || !w || !uom) {
+      return res.render("add", { error: "Tous les champs sont obligatoires" });
+    }
+
+    const newProduct = new productModel({
+      society,
+      price: Number(price),
+      qty: Number(qty),
+      year: Number(year),
+      size: { h: Number(h), w: Number(w), uom },
+    });
+
     await newProduct.save();
     res.redirect("/");
   } catch (err) {
-    console.error(err);
+    console.error("Erreur ajout produit:", err);
     res.status(500).send("Erreur serveur");
   }
 }

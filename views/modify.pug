@@ -1,16 +1,20 @@
 extends layout
 
 block content
-  h1 Modifier le produit
+  h1.mb-4 Modifier le produit
+  if error
+    p.text-danger #{error}
   form(method="POST")
-    label Société
-    input(type="text", name="society", value=product.society)
-    label Prix
-    input(type="number", name="price", value=product.price)
-    label Quantité
-    input(type="number", name="qty", value=product.qty)
-    label Année
-    input(type="number", name="year", value=product.year)
-    button(type="submit") Modifier
-  form(action=`/delete/${product._id}`, method="POST")
-    button(type="submit") Supprimer
+    .mb-3
+      label.form-label Société
+      input.form-control(type="text", name="society", value=product.society)
+    .mb-3
+      label.form-label Prix
+      input.form-control(type="number", name="price", value=product.price)
+    .mb-3
+      label.form-label Quantité
+      input.form-control(type="number", name="qty", value=product.qty)
+    .mb-3
+      label.form-label Année
+      input.form-control(type="number", name="year", value=product.year)
+    button.btn.btn-warning(type="submit") Modifier

@@ -2,7 +2,9 @@ extends layout
 
 block content
   h1.mb-4 Ajouter un produit
-  form(method="POST")
+  if error
+    p.text-danger #{error}
+  form(method="POST", action="/add")
     .mb-3
       label.form-label Société
       input.form-control(type="text", name="society")
@@ -24,5 +26,4 @@ block content
     .mb-3
       label.form-label UOM
       input.form-control(type="text", name="size[uom]")
-    button.btn.btn-primary(type="submit") Ajouter
-
+    button.btn.btn-success(type="submit") Ajouter
