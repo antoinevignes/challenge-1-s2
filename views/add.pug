@@ -1,20 +1,28 @@
 extends layout
 
 block content
-  h1 Ajouter un produit
+  h1.mb-4 Ajouter un produit
   form(method="POST")
-    label Société
-    input(type="text", name="society")
-    label Prix
-    input(type="number", name="price")
-    label Quantité
-    input(type="number", name="qty")
-    label Année
-    input(type="number", name="year")
-    label Taille H
-    input(type="number", name="size[h]")
-    label Taille W
-    input(type="number", name="size[w]")
-    label UOM
-    input(type="text", name="size[uom]")
-    button(type="submit") Ajouter
+    .mb-3
+      label.form-label Société
+      input.form-control(type="text", name="society")
+    .mb-3
+      label.form-label Prix
+      input.form-control(type="number", name="price")
+    .mb-3
+      label.form-label Quantité
+      input.form-control(type="number", name="qty")
+    .mb-3
+      label.form-label Année
+      input.form-control(type="number", name="year")
+    .mb-3
+      label.form-label Taille H
+      input.form-control(type="number", name="size[h]")
+    .mb-3
+      label.form-label Taille W
+      input.form-control(type="number", name="size[w]")
+    .mb-3
+      label.form-label UOM
+      input.form-control(type="text", name="size[uom]")
+    button.btn.btn-primary(type="submit") Ajouter
+

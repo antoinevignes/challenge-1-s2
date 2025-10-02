@@ -1,8 +1,9 @@
 extends layout
 
 block content
-  h1 Liste des produits (Total: #{total})
-  ul
+  h1.mb-4 Liste des produits (Total: #{total})
+  ul.list-group
     each product in products
-      li
-        a(href=`/${product._id}`) #{product.society} - #{product.qty}
+      li.list-group-item.d-flex.justify-content-between.align-items-center
+        a(href=`/detail/${product._id}`) #{product.society}
+        span.badge.bg-primary.rounded-pill #{product.qty}

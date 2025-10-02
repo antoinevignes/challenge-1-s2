@@ -5,12 +5,12 @@ dotenv.config();
 
 export function authMiddleware(req, res, next) {
   const token = req.session.token;
-  if (!token) return res.redirect("/user/login");
+  if (!token) return res.redirect("/login");
 
   try {
     jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (err) {
-    res.redirect("/user/login");
+    res.redirect("/login");
   }
 }

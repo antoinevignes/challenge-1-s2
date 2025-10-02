@@ -3,15 +3,22 @@ html
   head
     meta(charset="UTF-8")
     title Shop
+    link(rel="stylesheet", href="/css/bootstrap.min.css")
     link(rel="stylesheet", href="/css/style.css")
+
   body
     header
-      nav
-        a(href="/") Accueil
-        if session && session.token
-          a(href="/add") Ajouter Produit
-          a(href="/user/logout") Logout
-        else
-          a(href="/user/login") Login
-
-    block content
+      nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.mb-4
+        .container
+          a.navbar-brand(href="/") Shop
+          ul.navbar-nav.ml-auto
+            if session && session.token
+              li.nav-item
+                a.nav-link(href="/add") Ajouter Produit
+              li.nav-item
+                a.nav-link(href="/user/logout") Logout
+            else
+              li.nav-item
+                a.nav-link(href="/user/login") Login
+    .container
+      block content

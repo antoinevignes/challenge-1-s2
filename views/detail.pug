@@ -1,10 +1,21 @@
 extends layout
 
 block content
-  h1 Détails du produit
-  p Société: #{product.society}
-  p Prix: #{product.price}
-  p Quantité: #{product.qty}
-  p Année: #{product.year}
-  p Taille: #{product.size.h} x #{product.size.w} #{product.size.uom}
-  a(href=`/modify/${product._id}`) Modifier
+  h1.mb-4 Détails du produit
+  table.table.table-striped
+    tr
+      th Société
+      td #{product.society}
+    tr
+      th Prix
+      td #{product.price}
+    tr
+      th Quantité
+      td #{product.qty}
+    tr
+      th Année
+      td #{product.year}
+    tr
+      th Taille
+      td #{product.size.h} x #{product.size.w} #{product.size.uom}
+  a.btn.btn-warning.mt-3(href=`/modify/${product._id}`) Modifier

@@ -20,11 +20,18 @@ export async function login(req, res) {
   const token = jwt.sign({ login: user.login }, process.env.JWT_SECRET, {
     algorithm: "HS256",
   });
+
   req.session.token = token;
 
   res.redirect("/");
 }
 
 export function logout(req, res) {
-  req.session.destroy(() => res.redirect("/login"));
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Erreur lors de la déconnexion:", err);
+      return res.status(500).send("Erreur serveur");
+    }
+    res.redirect("/user/login");
+  });
 }

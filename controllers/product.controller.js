@@ -23,6 +23,16 @@ export async function getProductById(req, res) {
   }
 }
 
+export async function getProductForModify(req, res) {
+  try {
+    const product = await productModel.findById(req.params.id);
+    res.render("modify", { product });
+  } catch (err) {
+    console.error("Erreur récupération produit pour modification:", err);
+    res.status(500).send("Erreur serveur");
+  }
+}
+
 export async function updateProductById(req, res) {
   try {
     const updated = await productModel.findByIdAndUpdate(
